@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TransRoute - Premium Truck Management Portal</title>
+  <!-- Inline blocking auth check -->
+  <script>
+    (async () => {
+      try {
+        const res = await fetch('/api/auth/me');
+        if (!res.ok) {
+          window.location.replace('/login.html');
+        }
+      } catch (e) {
+        window.location.replace('/login.html');
+      }
+    })();
+  </script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient High-Tech Glow Blobs -->
+  <div class="glow-blob blob-1"></div>
+  <div class="glow-blob blob-2"></div>
+  <div class="glow-blob blob-3"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar-nav">
+      <div class="sidebar-header">
+        <div class="logo">
+          <!-- Truck SVG Logo -->
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+          <span class="logo-text">TransRoute</span>
+        </div>
+        <div class="logo-subtitle">FLEET LOGISTICS Portal</div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <button class="menu-item active" data-tab="dashboard">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="9"></rect>
+            <rect x="14" y="3" width="7" height="5"></rect>
+            <rect x="14" y="12" width="7" height="9"></rect>
+            <rect x="3" y="16" width="7" height="5"></svg>
+          Dashboard
+        </button>
+        <button class="menu-item" data-tab="fleet">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+            <path d="M15 18H9"></path>
+            <path d="M19 18h2a1 1 0 0 0 1-1v-5l-3-4h-4v10Z"></path>
+            <circle cx="7" cy="18" r="2"></circle>
+            <circle cx="17" cy="18" r="2"></circle>
+          </svg>
+          Fleet Inventory
+        </button>
+        <button class="menu-item" data-tab="drivers">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          Driver Directory
+        </button>
+
+        <button class="menu-item" data-tab="trips">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+          </svg>
+          Active Trips
+        </button>
+        <button class="menu-item" data-tab="maintenance">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+          </svg>
+          Maintenance
+        </button>
+        <button class="menu-item" data-tab="fuel">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 22h12M4 2v16a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9M9 5h2M18 9v6a3 3 0 0 0 6 0V9a3 3 0 0 0-3-3h-1a2 2 0 0 0-2 2Z"></path>
+          </svg>
+          Fuel Logs
+        </button>
+        <button class="menu-item" data-tab="def">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a8 8 0 0 0-8 8c0 5.5 8 12 8 12s8-6.5 8-12a8 8 0 0 0-8-8z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          DEF / AdBlue
+        </button>
+        <button class="menu-item" data-tab="accounts">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+          Accounts Ledger
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-indicator-box">
+          <span class="pulse-dot"></span>
+          <span class="status-text">Server: Connected</span>
+        </div>
+        <div class="footer-credit">© 2026 TransRoute</div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="top-header">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div class="header-search">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="global-search" placeholder="Search in current section...">
+        </div>
+        <div class="header-actions">
+          <div class="notifications-bell" id="notifications-bell-btn">
+            <svg class="bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="bell-badge" id="notifications-count">0</span>
+          </div>
+          <div class="user-profile">
+            <div class="user-avatar" id="header-user-avatar">AD</div>
+            <div class="user-info">
+              <span class="user-name" id="header-user-name">Admin Dashboard</span>
+              <span class="user-role" id="header-user-role">Super User</span>
+            </div>
+            <!-- Logout Action -->
+            <button class="btn-icon-only btn-delete" style="margin-left: 10px;" onclick="logout()" title="Logout Session">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dynamic Tab Panels -->
+      <div class="content-body">
+        
+        <!-- Tab 1: Dashboard -->
+        <section id="dashboard-tab" class="tab-panel active">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Operations Control Center</h1>
+              <p class="panel-subtitle">Real-time status overview of your fleet and shipments.</p>
+            </div>
+            <div class="quick-actions-btn-group" style="display:flex; gap:12px;">
+              <button class="btn btn-secondary" onclick="exportSectionToPDF('dashboard')" style="display:flex; align-items:center; gap:6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export PDF
+              </button>
+              <button class="btn btn-secondary" onclick="openModal('add-truck-modal')">
+                Register Truck
+              </button>
+              <button class="btn btn-primary" onclick="openModal('dispatch-trip-modal')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                Dispatch New Trip
+              </button>
+            </div>
+          </div>
+
+          <!-- KPI Grid -->
+          <div class="kpi-grid">
+            <div class="kpi-card purple-glow">
+              <div class="kpi-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-5l-3-4h-4v10Z"></path><circle cx="7" cy="18" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-title">Total Trucks</span>
+                <span class="kpi-value" id="kpi-total-trucks">0</span>
+              </div>
+            </div>
+            <div class="kpi-card green-glow">
+              <div class="kpi-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-title">Active Drivers</span>
+                <span class="kpi-value" id="kpi-active-drivers">0</span>
+              </div>
+            </div>
+            <div class="kpi-card blue-glow">
+              <div class="kpi-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-title">Active Shipments</span>
+                <span class="kpi-value" id="kpi-active-trips">0</span>
+              </div>
+            </div>
+            <div class="kpi-card orange-glow">
+              <div class="kpi-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-title">In Workshop</span>
+                <span class="kpi-value" id="kpi-in-maintenance">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Financial Analytics Highlights -->
+          <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-bottom: 32px;">
+            <div class="kpi-card blue-glow">
+              <div class="kpi-details">
+                <span class="kpi-title" style="color:var(--text-muted);">Cargo Gross Revenue</span>
+                <span class="kpi-value" id="finance-gross-revenue" style="color: var(--color-cyan);">₹0</span>
+                <span style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Generated from completed & active routes</span>
+              </div>
+            </div>
+            <div class="kpi-card orange-glow">
+              <div class="kpi-details">
+                <span class="kpi-title" style="color:var(--text-muted);">Operating Expenses</span>
+                <span class="kpi-value" id="finance-operating-expenses" style="color: var(--color-orange);">₹0</span>
+                <span style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Fuel, tolls, allowance & workshop charges</span>
+              </div>
+            </div>
+            <div class="kpi-card green-glow">
+              <div class="kpi-details">
+                <span class="kpi-title" style="color:var(--text-muted);">Net Profit Margin</span>
+                <span class="kpi-value" id="finance-net-profit" style="color: var(--color-emerald);">₹0</span>
+                <span style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Profit after expenses deduction</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Map & Stats Section -->
+          <div class="dashboard-body-grid">
+            <!-- Simulated Fleet Map Tracker -->
+            <div class="dashboard-card map-card">
+              <div class="card-header">
+                <h3 class="card-title">Live Route Tracker</h3>
+                <span class="badge badge-success">Radar Scanning</span>
+              </div>
+              <div class="map-simulation-container">
+                <div class="map-grid-overlay"></div>
+                <div class="radar-sweep-line"></div>
+                <!-- Route nodes -->
+                <div class="map-city-node" style="top: 80%; left: 35%;" data-city="Mumbai">Mumbai</div>
+                <div class="map-city-node" style="top: 20%; left: 45%;" data-city="Delhi">Delhi</div>
+                <div class="map-city-node" style="top: 60%; left: 15%;" data-city="Ahmedabad">Ahmedabad</div>
+                <div class="map-city-node" style="top: 90%; left: 60%;" data-city="Bengaluru">Bengaluru</div>
+                <div class="map-city-node" style="top: 40%; left: 80%;" data-city="Kolkata">Kolkata</div>
+                <div class="map-city-node" style="top: 30%; left: 30%;" data-city="Jaipur">Jaipur</div>
+                <div class="map-city-node" style="top: 92%; left: 70%;" data-city="Chennai">Chennai</div>
+                
+                <!-- Live truck markers moving -->
+                <div class="live-truck-marker" id="sim-truck-1" style="top: 80%; left: 35%;">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" class="truck-marker-svg"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon></svg>
+                  <div class="truck-label">TRK-001</div>
+                </div>
+                <div class="live-truck-marker" id="sim-truck-2" style="top: 60%; left: 15%;">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" class="truck-marker-svg" style="color: var(--color-purple);"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon></svg>
+                  <div class="truck-label">TRK-004</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Operations Alerts Log -->
+            <div class="dashboard-card updates-card" style="display:flex; flex-direction:column; gap:16px;">
+              <div class="card-header" style="margin-bottom:0;">
+                <h3 class="card-title">Operations Alerts</h3>
+                <span class="badge badge-warning" id="alerts-badge">0 Warnings</span>
+              </div>
+              <div class="alerts-log-container" id="dashboard-alerts-list" style="flex-grow:1; overflow-y:auto; max-height:330px;">
+                <!-- Generated dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Grid: Truck Distribution & Costing -->
+          <div class="dashboard-stats-grid">
+            <div class="dashboard-card">
+              <h3 class="card-title">Fleet Fuel Type Distribution</h3>
+              <div class="stats-bar-chart" id="fuel-distribution-chart">
+                <!-- Bar chart elements generated dynamically -->
+              </div>
+            </div>
+            <div class="dashboard-card">
+              <h3 class="card-title">Recent Dispatched Trips</h3>
+              <div class="timeline-list" id="dashboard-recent-trips">
+                <!-- Loaded dynamically -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tab 2: Fleet Management -->
+        <section id="fleet-tab" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Fleet Inventory</h1>
+              <p class="panel-subtitle">Manage heavy cargo vehicles, view locations, status, and service history.</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <button class="btn btn-secondary" onclick="exportSectionToPDF('fleet')" style="display:flex; align-items:center; gap:6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export PDF
+              </button>
+              <button class="btn btn-primary" onclick="openModal('add-truck-modal')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add New Truck
+              </button>
+            </div>
+          </div>
+
+          <div class="filters-container">
+            <div class="filter-group">
+              <label>Status Filter:</label>
+              <select id="truck-filter-status" class="filter-select">
+                <option value="All">All Statuses</option>
+                <option value="Idle">Idle / Available</option>
+                <option value="On Route">On Route</option>
+                <option value="Maintenance">Maintenance</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Truck ID</th>
+                  <th>Plate Number</th>
+                  <th>Model</th>
+                  <th>Fuel</th>
+                  <th>Capacity</th>
+                  <th>Assigned Driver</th>
+                  <th>Location</th>
+                  <th>Last Service</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="trucks-table-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Tab 3: Driver Directory -->
+        <section id="drivers-tab" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Driver Directory</h1>
+              <p class="panel-subtitle">Manage certified commercial operators and active duties.</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <button class="btn btn-secondary" onclick="exportSectionToPDF('drivers')" style="display:flex; align-items:center; gap:6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export PDF
+              </button>
+              <button class="btn btn-primary" onclick="openModal('add-driver-modal')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Register Driver
+              </button>
+            </div>
+          </div>
+
+          <div class="driver-cards-grid" id="drivers-grid-container">
+            <!-- Rendered dynamically -->
+          </div>
+        </section>
+
+        <!-- Tab 5: Active Trips -->
+        <section id="trips-tab" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Trip Logistics & Dispatch</h1>
+              <p class="panel-subtitle">Monitor dispatched cargo shipments, update routes and trip completions.</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <button class="btn btn-secondary" onclick="exportSectionToPDF('trips')" style="display:flex; align-items:center; gap:6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export PDF
+              </button>
+              <button class="btn btn-primary" onclick="openModal('dispatch-trip-modal')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                Dispatch New Trip
+              </button>
+            </div>
+          </div>
+
+          <div class="trips-list-container" id="trips-container">
+            <!-- Rendered dynamically -->
+          </div>
+        </section>
+
+        <!-- Tab 6: Maintenance -->
+        <section id="maintenance-tab" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Maintenance Ledger</h1>
+              <p class="panel-subtitle">Schedule repair logs, trace workshop expenditures, and oversee parts servicing.</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <button class="btn btn-secondary" onclick="exportSectionToPDF('maintenance')" style="display:flex; align-items:center; gap:6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export PDF
+              </button>
+              <button class="btn btn-primary" onclick="openModal('log-maintenance-modal')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                Log Maintenance
+              </button>
+            </div>
+          </div>
+
+          <div class="grid-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Job ID</th>
+                  <th>Truck ID</th>
+                  <th>Plate Number</th>
+                  <th>Date</th>
+                  <th>Service Details</th>
+                  <th>Cost</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="maintenance-table-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Tab 8: Fuel Logs -->
+        <section id="fuel-tab" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Fuel Consumption Log</h1>
+              <p class="panel-subtitle">Record fuel refills, monitor odometer readings, and track fleet fuel efficiency costs.</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <button class="btn btn-secondary" onclick="exportSectionToPDF('fuel')" style="display:flex; align-items:center; gap:6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export PDF
+              </button>
+              <button class="btn btn-primary" onclick="openModal('add-fuel-modal')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Log Fuel Refill
+              </button>
+            </div>
+          </div>
+
+          <!-- BUG-08/13 FIX: Fuel Summary KPI cards -->
+          <div class="kpi-grid" style="margin-bottom: 24px;">
+            <div class="kpi-card blue-glow">
+              <div class="kpi-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.5 8 12 8 12s8-6.5 8-12a8 8 0 0 0-8-8z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-title">Total Fuel Used (L)</span>
+                <span class="kpi-value" id="fuel-total-liters" style="color:var(--color-cyan);">0 L</span>
+              </div>
+            </div>
+            <div class="kpi-card orange-glow">
+              <div class="kpi-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-title">Total Fuel Cost (₹)</span>
+                <span class="kpi-value" id="fuel-total-cost" style="color:var(--color-orange);">₹0</span>
+              </div>
+            </div>
+            <div class="kpi-card green-glow">
+              <div class="kpi-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-title">Avg Price/Liter (₹)</span>
+                <span class="kpi-value" id="fuel-avg-price" style="color:var(--color-emerald);">₹0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Log ID</th>
+                  <th>Truck ID</th>
+                  <th>Plate Number</th>
+                  <th>Driver Name</th>
+                  <th>Refill Date</th>
+                  <th>Linked Trip</th>
+                  <th>Quantity (Liters)</th>
+                  <th>Price/Liter</th>
+                  <th>Total Cost (₹)</th>
+                  <th>Odometer Reading</th>
+                  <th>Payment Account</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="fuel-table-body">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Tab 7: DEF / AdBlue Log -->
+        <section id="def-tab" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">DEF / AdBlue Consumption Log</h1>
+              <p class="panel-subtitle">Track Diesel Exhaust Fluid (AdBlue) refills per truck, linked to active trips for accurate cost reporting.</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <button class="btn btn-secondary" onclick="exportSectionToPDF('def')" style="display:flex; align-items:center; gap:6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export PDF
+              </button>
+              <button class="btn btn-primary" onclick="openModal('add-def-modal')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Log DEF Refill
+              </button>
+            </div>
+          </div>
+
+          <!-- DEF Summary KPI cards -->
+          <div class="kpi-grid" style="margin-bottom: 24px;">
+            <div class="kpi-card blue-glow">
+              <div class="kpi-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.5 8 12 8 12s8-6.5 8-12a8 8 0 0 0-8-8z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-title">Total DEF Used (L)</span>
+                <span class="kpi-value" id="def-total-liters" style="color:var(--color-cyan);">0 L</span>
+              </div>
+            </div>
+            <div class="kpi-card orange-glow">
+              <div class="kpi-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-title">Total DEF Cost (₹)</span>
+                <span class="kpi-value" id="def-total-cost" style="color:var(--color-orange);">₹0</span>
+              </div>
+            </div>
+            <div class="kpi-card green-glow">
+              <div class="kpi-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              </div>
+              <div class="kpi-details">
+                <span class="kpi-title">Avg Price/Liter (₹)</span>
+                <span class="kpi-value" id="def-avg-price" style="color:var(--color-emerald);">₹0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Log ID</th>
+                  <th>Truck ID</th>
+                  <th>Plate Number</th>
+                  <th>Driver Name</th>
+                  <th>Refill Date</th>
+                  <th>Linked Trip</th>
+                  <th>Quantity (L)</th>
+                  <th>Price/Liter (₹)</th>
+                  <th>Total Cost (₹)</th>
+                  <th>Odometer (KM)</th>
+                  <th>Payment Account</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="def-table-body">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Tab 8: Accounts Ledger -->
+
+        <section id="accounts-tab" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Accounts Control & Ledger</h1>
+              <p class="panel-subtitle">Monitor operational expenses, trip revenues, salary payouts, and general ledger statistics.</p>
+            </div>
+            <button class="btn btn-secondary" onclick="exportSectionToPDF('accounts')" style="display:flex; align-items:center; gap:6px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Export PDF
+            </button>
+          </div>
+
+          <!-- Accounts Sub Tabs Navigation -->
+          <div class="sub-tabs-container" style="display:flex; gap:12px; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+            <button class="btn btn-primary" id="sub-tab-btn-ledger" onclick="switchAccountsSubTab('ledger')" style="font-size:0.85rem;">Ledger Transactions</button>
+            <button class="btn btn-secondary" id="sub-tab-btn-banks" onclick="switchAccountsSubTab('banks')" style="font-size:0.85rem;">Bank Accounts / Assets</button>
+            <button class="btn btn-secondary" id="sub-tab-btn-users" onclick="switchAccountsSubTab('users')" style="font-size:0.85rem;">Manager Logins</button>
+            <button class="btn btn-secondary" id="sub-tab-btn-categories" onclick="switchAccountsSubTab('categories')" style="font-size:0.85rem;">Manage Categories</button>
+          </div>
+
+          <!-- SUB PANEL A: FINANCIAL LEDGER -->
+          <div id="sub-panel-ledger">
+            <!-- Accounts Summary Cards -->
+            <div class="kpi-grid" style="margin-bottom: 24px;">
+              <div class="kpi-card green-glow">
+                <div class="kpi-icon-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                </div>
+                <div class="kpi-details">
+                  <span class="kpi-title">Total Income</span>
+                  <span class="kpi-value" id="accounts-total-income" style="color:var(--color-emerald);">₹0</span>
+                </div>
+              </div>
+              <div class="kpi-card orange-glow">
+                <div class="kpi-icon-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
+                </div>
+                <div class="kpi-details">
+                  <span class="kpi-title">Total Expenses</span>
+                  <span class="kpi-value" id="accounts-total-expenses" style="color:var(--color-orange);">₹0</span>
+                </div>
+              </div>
+              <div class="kpi-card blue-glow">
+                <div class="kpi-icon-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                </div>
+                <div class="kpi-details">
+                  <span class="kpi-title">Net Balance</span>
+                  <span class="kpi-value" id="accounts-net-balance">₹0</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-header" style="margin-top:0; padding-top:0;">
+              <h3 style="font-size:1.1rem; color:var(--text-color);">Transaction Ledger</h3>
+              <button class="btn btn-primary" onclick="openModal('add-transaction-modal')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Log Transaction
+              </button>
+            </div>
+
+            <div class="filters-container">
+              <div style="display:flex; gap:20px; flex-wrap:wrap;">
+                <div class="filter-group">
+                  <label>Type:</label>
+                  <select id="txn-filter-type" class="filter-select">
+                    <option value="All">All Types</option>
+                    <option value="Income">Income</option>
+                    <option value="Expense">Expense</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label>Category:</label>
+                  <select id="txn-filter-category" class="filter-select">
+                    <option value="All">All Categories</option>
+                    <option value="Trip Revenue">Trip Revenue</option>
+                    <option value="Toll Cost">Toll Cost</option>
+                    <option value="Fuel">Fuel</option>
+                    <option value="Maintenance">Maintenance</option>
+                    <option value="Salary">Salary</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Insurance">Insurance</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label>Filter by Account:</label>
+                  <select id="txn-filter-account" class="filter-select">
+                    <option value="All">All Accounts</option>
+                    <!-- Populated dynamically -->
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Transaction ID</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Account / Mode</th>
+                    <th>Reference ID</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="accounts-table-body">
+                  <!-- Loaded dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SUB PANEL B: FINANCIAL ACCOUNTS (BANKS) -->
+          <div id="sub-panel-banks" style="display:none;">
+            <div class="panel-header" style="margin-top:0; padding-top:0;">
+              <div>
+                <h3 style="font-size:1.1rem; color:var(--text-color); margin:0;">Financial Accounts & Bank Balances</h3>
+                <p class="panel-subtitle">Create and manage your business cash holdings, digital wallets, and bank accounts.</p>
+              </div>
+              <button class="btn btn-primary" onclick="openModal('add-financial-account-modal')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Register Bank / Cash A/C
+              </button>
+            </div>
+
+            <div class="grid-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Account ID</th>
+                    <th>Account Label</th>
+                    <th>Account Type</th>
+                    <th>Available Balance</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="financial-accounts-table-body">
+                  <!-- Loaded dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SUB PANEL C: MANAGER USER ACCOUNT LOGIN CREDENTIALS -->
+          <div id="sub-panel-users" style="display:none;">
+            <div class="panel-header" style="margin-top:0; padding-top:0;">
+              <div>
+                <h3 style="font-size:1.1rem; color:var(--text-color); margin:0;">Dashboard Login Credentials</h3>
+                <p class="panel-subtitle">Manage administrative login permissions and roles.</p>
+              </div>
+              <button class="btn btn-primary" onclick="openModal('add-user-modal')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Register Login Profile
+              </button>
+            </div>
+
+            <div class="grid-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Username</th>
+                    <th>System Role</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table-body">
+                  <!-- Loaded dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SUB PANEL D: TRANSACTION CATEGORIES -->
+          <div id="sub-panel-categories" style="display:none;">
+            <div class="panel-header" style="margin-top:0; padding-top:0;">
+              <div>
+                <h3 style="font-size:1.1rem; color:var(--text-color); margin:0;">Transaction & Expense Categories</h3>
+                <p class="panel-subtitle">Add, edit, or remove financial and shipment categories of your choice.</p>
+              </div>
+              <button class="btn btn-primary" onclick="openModal('add-category-modal')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Create Category
+              </button>
+            </div>
+
+            <div class="grid-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Category ID</th>
+                    <th>Category Name</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="categories-table-body">
+                  <!-- Loaded dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Modals Layer -->
+
+  <!-- 1. Add Truck Modal -->
+  <div id="add-truck-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Register Fleet Vehicle</h3>
+        <button class="modal-close" onclick="closeModal('add-truck-modal')">&times;</button>
+      </div>
+      <form id="add-truck-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="truck-plate">License Plate</label>
+            <input type="text" id="truck-plate" placeholder="e.g. MH-12-QW-9876" required>
+          </div>
+          <div class="form-group">
+            <label for="truck-model">Model / Make</label>
+            <input type="text" id="truck-model" placeholder="e.g. BharatBenz 4828R" required>
+          </div>
+          <div class="form-group">
+            <label for="truck-capacity">Cargo Capacity (Tons)</label>
+            <input type="number" id="truck-capacity" placeholder="e.g. 30" required min="1">
+          </div>
+          <div class="form-group">
+            <label for="truck-fuel">Fuel Type</label>
+            <select id="truck-fuel">
+              <option value="Diesel">Diesel</option>
+              <option value="LNG">Liquefied Natural Gas (LNG)</option>
+              <option value="CNG">Compressed Natural Gas (CNG)</option>
+              <option value="Electric">Electric</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="truck-location">Initial Location</label>
+            <input type="text" id="truck-location" placeholder="e.g. Mumbai" required>
+          </div>
+          <div class="form-group">
+            <label for="truck-driver">Assign Operator (Optional)</label>
+            <select id="truck-driver">
+              <option value="">No Driver Assigned</option>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('add-truck-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Truck</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 1B. Edit Truck Modal -->
+  <div id="edit-truck-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Fleet Vehicle</h3>
+        <button class="modal-close" onclick="closeModal('edit-truck-modal')">&times;</button>
+      </div>
+      <form id="edit-truck-form">
+        <input type="hidden" id="edit-truck-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="edit-truck-plate">License Plate</label>
+            <input type="text" id="edit-truck-plate" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-truck-model">Model / Make</label>
+            <input type="text" id="edit-truck-model" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-truck-capacity">Cargo Capacity (Tons)</label>
+            <input type="number" id="edit-truck-capacity" required min="1">
+          </div>
+          <div class="form-group">
+            <label for="edit-truck-fuel">Fuel Type</label>
+            <select id="edit-truck-fuel">
+              <option value="Diesel">Diesel</option>
+              <option value="LNG">LNG</option>
+              <option value="CNG">CNG</option>
+              <option value="Electric">Electric</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-truck-location">Current Location</label>
+            <input type="text" id="edit-truck-location" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-truck-status">Current Status</label>
+            <select id="edit-truck-status">
+              <option value="Idle">Idle</option>
+              <option value="On Route">On Route</option>
+              <option value="Maintenance">Maintenance</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label for="edit-truck-driver">Assign Operator</label>
+            <select id="edit-truck-driver">
+              <option value="">No Driver Assigned</option>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('edit-truck-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Add Driver Modal -->
+  <div id="add-driver-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Register Commercial Operator</h3>
+        <button class="modal-close" onclick="closeModal('add-driver-modal')">&times;</button>
+      </div>
+      <form id="add-driver-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="driver-name">Driver Name</label>
+            <input type="text" id="driver-name" placeholder="Full Name" required>
+          </div>
+          <div class="form-group">
+            <label for="driver-phone">Mobile Number</label>
+            <input type="tel" id="driver-phone" placeholder="e.g. +91 98765 43210" required>
+          </div>
+          <div class="form-group">
+            <label for="driver-license">Commercial DL Number</label>
+            <input type="text" id="driver-license" placeholder="e.g. MH-1220200087654" required>
+          </div>
+          <div class="form-group">
+            <label for="driver-license-expiry">DL Expiry Date</label>
+            <input type="date" id="driver-license-expiry" required>
+          </div>
+          <div class="form-group">
+            <label for="driver-rating">Initial Rating</label>
+            <input type="number" id="driver-rating" placeholder="5.0" min="1" max="5" step="0.1" value="5.0">
+          </div>
+          <div class="form-group">
+            <label for="driver-truck">Assign Truck (Optional)</label>
+            <select id="driver-truck">
+              <option value="">No Truck Assigned</option>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('add-driver-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Register Driver</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2B. Edit Driver Modal -->
+  <div id="edit-driver-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Operator Details</h3>
+        <button class="modal-close" onclick="closeModal('edit-driver-modal')">&times;</button>
+      </div>
+      <form id="edit-driver-form">
+        <input type="hidden" id="edit-driver-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="edit-driver-name">Driver Name</label>
+            <input type="text" id="edit-driver-name" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-driver-phone">Mobile Number</label>
+            <input type="tel" id="edit-driver-phone" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-driver-license">DL Number</label>
+            <input type="text" id="edit-driver-license" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-driver-license-expiry">DL Expiry Date</label>
+            <input type="date" id="edit-driver-license-expiry" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-driver-status">Duty Status</label>
+            <select id="edit-driver-status">
+              <option value="Available">Available</option>
+              <option value="On Duty">On Duty</option>
+              <option value="Off Duty">Off Duty</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-driver-truck">Assigned Vehicle</label>
+            <select id="edit-driver-truck">
+              <option value="">No Vehicle Assigned</option>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('edit-driver-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Dispatch Trip Modal -->
+  <div id="dispatch-trip-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Dispatch Shipment</h3>
+        <button class="modal-close" onclick="closeModal('dispatch-trip-modal')">&times;</button>
+      </div>
+      <form id="dispatch-trip-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="trip-source">Source Hub / Origin</label>
+            <input type="text" id="trip-source" placeholder="e.g. Mumbai" required>
+          </div>
+          <div class="form-group">
+            <label for="trip-destination">Destination Hub</label>
+            <input type="text" id="trip-destination" placeholder="e.g. Delhi" required>
+          </div>
+          <div class="form-group">
+            <label for="trip-distance">Distance (KM)</label>
+            <input type="number" id="trip-distance" placeholder="e.g. 1400" required min="1">
+          </div>
+          <div class="form-group">
+            <label for="trip-toll">Toll Cost (₹)</label>
+            <input type="number" id="trip-toll" placeholder="e.g. 8500" required min="0">
+          </div>
+          <div class="form-group">
+            <label for="trip-truck">Select Available Vehicle</label>
+            <select id="trip-truck" required>
+              <option value="">Choose Available Truck...</option>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="trip-driver">Assign Available Operator</label>
+            <select id="trip-driver" required>
+              <option value="">Choose Available Driver...</option>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="trip-return-source">Return From (Origin) [Optional]</label>
+            <input type="text" id="trip-return-source" placeholder="e.g. Delhi">
+          </div>
+          <div class="form-group">
+            <label for="trip-return-destination">Return To (Destination) [Optional]</label>
+            <input type="text" id="trip-return-destination" placeholder="e.g. Mumbai">
+          </div>
+          <div class="form-group">
+            <label for="trip-return-distance">Return Distance (KM) [Optional]</label>
+            <input type="number" id="trip-return-distance" placeholder="e.g. 1400" min="0">
+          </div>
+          <div class="form-group">
+            <label for="trip-return-toll">Return Toll Cost (₹) [Optional]</label>
+            <input type="number" id="trip-return-toll" placeholder="e.g. 8500" min="0">
+          </div>
+          <div class="form-group">
+            <label for="trip-start">Starting Date</label>
+            <input type="date" id="trip-start" required>
+          </div>
+          <div class="form-group">
+            <label for="trip-end">Ending Date</label>
+            <input type="date" id="trip-end" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('dispatch-trip-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Dispatch Cargo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3B. Edit Trip Modal -->
+  <div id="edit-trip-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Shipment Details</h3>
+        <button class="modal-close" onclick="closeModal('edit-trip-modal')">&times;</button>
+      </div>
+      <form id="edit-trip-form">
+        <input type="hidden" id="edit-trip-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="edit-trip-source">Source Hub / Origin</label>
+            <input type="text" id="edit-trip-source" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-destination">Destination Hub</label>
+            <input type="text" id="edit-trip-destination" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-distance">Distance (KM)</label>
+            <input type="number" id="edit-trip-distance" required min="1">
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-toll">Toll Cost (₹)</label>
+            <input type="number" id="edit-trip-toll" required min="0">
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-truck">Assigned Vehicle</label>
+            <select id="edit-trip-truck" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-driver">Assigned Operator</label>
+            <select id="edit-trip-driver" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-return-source">Return From (Origin) [Optional]</label>
+            <input type="text" id="edit-trip-return-source">
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-return-destination">Return To (Destination) [Optional]</label>
+            <input type="text" id="edit-trip-return-destination">
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-return-distance">Return Distance (KM) [Optional]</label>
+            <input type="number" id="edit-trip-return-distance" min="0">
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-return-toll">Return Toll Cost (₹) [Optional]</label>
+            <input type="number" id="edit-trip-return-toll" min="0">
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-start">Starting Date</label>
+            <input type="date" id="edit-trip-start" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-end">Ending Date</label>
+            <input type="date" id="edit-trip-end" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-status">Trip Status</label>
+            <select id="edit-trip-status" required>
+              <option value="Pending">Pending</option>
+              <option value="In Transit">In Transit</option>
+              <option value="Delivered">Delivered</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-trip-progress">Transit Progress (%)</label>
+            <input type="number" id="edit-trip-progress" min="0" max="100" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('edit-trip-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3C. Trip Details & Expenses Modal -->
+  <div id="trip-details-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 950px; width: 95%;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="details-trip-title">Trip Details & Expenses</h3>
+        <button class="modal-close" onclick="closeModal('trip-details-modal')">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 20px; overflow-y: auto; max-height: 80vh;">
+        
+        <!-- Summary Info Grid -->
+        <div class="form-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 20px; gap: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px;">
+          <div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Assigned Truck</span>
+            <strong id="details-trip-truck" style="color: var(--color-cyan);">N/A</strong>
+          </div>
+          <div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Assigned Operator</span>
+            <strong id="details-trip-driver">N/A</strong>
+          </div>
+          <div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Starting Date</span>
+            <strong id="details-trip-start">N/A</strong>
+          </div>
+          <div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Ending Date</span>
+            <strong id="details-trip-end">N/A</strong>
+          </div>
+          <div style="grid-column: span 2;">
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Round Trip Corridor</span>
+            <strong id="details-trip-hubs">N/A</strong>
+          </div>
+          <div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Total Distance</span>
+            <strong id="details-trip-distance">0 KM</strong>
+          </div>
+          <div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Total Toll Costs</span>
+            <strong id="details-trip-tolls">₹0</strong>
+          </div>
+          <div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Total Revenue</span>
+            <strong id="details-trip-revenue" style="color: var(--color-emerald);">₹0</strong>
+          </div>
+          <div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Actual Expenses</span>
+            <strong id="details-trip-expense" style="color: var(--color-red);">₹0</strong>
+          </div>
+          <div style="grid-column: span 2;">
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Net Estimated Profit</span>
+            <strong id="details-trip-profit" style="color: var(--color-cyan);">₹0</strong>
+          </div>
+        </div>
+
+        <input type="hidden" id="details-trip-id">
+
+        <!-- Tab Switching buttons -->
+        <div style="display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+          <button type="button" class="btn btn-primary" id="btn-sub-expenses" onclick="switchTripDetailsSubTab('expenses')">Trip Expenses</button>
+          <button type="button" class="btn btn-secondary" id="btn-sub-fuel" onclick="switchTripDetailsSubTab('fuel')">Linked Fuel Logs</button>
+          <button type="button" class="btn btn-secondary" id="btn-sub-def" onclick="switchTripDetailsSubTab('def')">Linked DEF Logs</button>
+        </div>
+
+        <!-- Section 1: Trip Expenses Panel -->
+        <div id="sub-panel-trip-expenses">
+          <h4 style="margin-top:0; color: var(--color-cyan); margin-bottom: 10px;">Record Trip Expense</h4>
+          <form id="trip-expense-form" style="margin-bottom: 20px; background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; align-items: flex-end;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="trip-exp-category">Category</label>
+                <select id="trip-exp-category" required>
+                  <option value="Toll Cost">Toll Cost</option>
+                  <option value="Driver Allowance">Driver Allowance</option>
+                  <option value="Repairs">Repairs & Workshop</option>
+                  <option value="Loading/Unloading">Loading/Unloading</option>
+                  <option value="Food/Lodging">Food & Lodging</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="trip-exp-amount">Amount (₹)</label>
+                <input type="number" id="trip-exp-amount" placeholder="e.g. 2500" required min="1">
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="trip-exp-method">Payment Account</label>
+                <select id="trip-exp-method" required>
+                  <!-- Populated dynamically -->
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="trip-exp-date">Date</label>
+                <input type="date" id="trip-exp-date" required>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 10px; align-items: flex-end; margin-top: 10px;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="trip-exp-desc">Description</label>
+                <input type="text" id="trip-exp-desc" placeholder="e.g. Toll tax paid at Delhi border" required>
+              </div>
+              <button type="submit" class="btn btn-primary" style="height: 38px;">Save Expense</button>
+            </div>
+          </form>
+
+          <h4 style="color: var(--color-cyan); margin-bottom: 10px;">Recorded Expense Ledger</h4>
+          <div class="grid-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Category</th>
+                  <th>Payment Method</th>
+                  <th>Description</th>
+                  <th>Amount (₹)</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="trip-expenses-table-body">
+                <!-- Dynamically Populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 2: Linked Fuel Logs Panel -->
+        <div id="sub-panel-trip-fuel" style="display: none;">
+          <h4 style="margin-top:0; color: var(--color-cyan); margin-bottom: 10px;">Log Fuel for Trip</h4>
+          <form id="trip-fuel-form" style="margin-bottom: 20px; background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px;">
+            <div class="form-grid" style="grid-template-columns: repeat(3, 1fr); gap: 10px;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="trip-fuel-qty">Quantity (Liters)</label>
+                <input type="number" id="trip-fuel-qty" placeholder="e.g. 100" required min="1">
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="trip-fuel-price">Price per Liter (₹)</label>
+                <input type="number" id="trip-fuel-price" placeholder="e.g. 96.50" required min="1" step="0.01">
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="trip-fuel-odometer">Odometer (KM)</label>
+                <input type="number" id="trip-fuel-odometer" placeholder="e.g. 89450" required min="0">
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="trip-fuel-method">Payment Account</label>
+                <select id="trip-fuel-method" required>
+                  <!-- Populated dynamically -->
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="trip-fuel-date">Date</label>
+                <input type="date" id="trip-fuel-date" required>
+              </div>
+              <div class="form-group" style="margin-bottom:0; display:flex; align-items:flex-end;">
+                <button type="submit" class="btn btn-primary" style="width:100%; height:38px;">Save Fuel Purchase</button>
+              </div>
+            </div>
+          </form>
+
+          <h4 style="color: var(--color-cyan); margin-bottom: 10px;">Fuel Refills Ledger</h4>
+          <div class="grid-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Quantity (L)</th>
+                  <th>Rate (₹)</th>
+                  <th>Total Cost (₹)</th>
+                  <th>Odometer (KM)</th>
+                  <th>Payment Method</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="trip-fuel-table-body">
+                <!-- Dynamically Populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 3: Linked DEF Logs Panel (BUG-11 FIX) -->
+        <div id="sub-panel-trip-def" style="display: none;">
+          <h4 style="color: var(--color-cyan); margin-bottom: 10px;">DEF / AdBlue Refills Ledger</h4>
+          <div class="grid-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Quantity (L)</th>
+                  <th>Rate (₹)</th>
+                  <th>Total Cost (₹)</th>
+                  <th>Odometer (KM)</th>
+                  <th>Payment Method</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="trip-def-table-body">
+                <!-- Dynamically Populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('trip-details-modal')">Close Details</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Log Maintenance Modal -->
+  <div id="log-maintenance-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Log Workshop Entry</h3>
+        <button class="modal-close" onclick="closeModal('log-maintenance-modal')">&times;</button>
+      </div>
+      <form id="log-maintenance-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="maint-truck">Select Vehicle</label>
+            <select id="maint-truck" required>
+              <option value="">Choose Vehicle...</option>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="maint-date">Entry Date</label>
+            <input type="date" id="maint-date" required>
+          </div>
+          <div class="form-group">
+            <label for="maint-type">Service Details</label>
+            <input type="text" id="maint-type" placeholder="e.g. Oil change, Suspension repair" required>
+          </div>
+          <div class="form-group">
+            <label for="maint-cost">Estimated Service Cost (₹)</label>
+            <input type="number" id="maint-cost" placeholder="e.g. 15000" required min="0">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('log-maintenance-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Workshop Entry</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4B. Edit Maintenance Modal -->
+  <div id="edit-maintenance-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Workshop Entry</h3>
+        <button class="modal-close" onclick="closeModal('edit-maintenance-modal')">&times;</button>
+      </div>
+      <form id="edit-maintenance-form">
+        <input type="hidden" id="edit-maintenance-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="edit-maint-truck">Vehicle</label>
+            <select id="edit-maint-truck" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-maint-date">Entry Date</label>
+            <input type="date" id="edit-maint-date" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-maint-type">Service Details</label>
+            <input type="text" id="edit-maint-type" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-maint-cost">Estimated Service Cost (₹)</label>
+            <input type="number" id="edit-maint-cost" required min="0">
+          </div>
+          <div class="form-group full-width">
+            <label for="edit-maint-status">Workshop Status</label>
+            <select id="edit-maint-status" required>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('edit-maintenance-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- 6. Add Transaction Modal -->
+  <div id="add-transaction-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Log Transaction Entry</h3>
+        <button class="modal-close" onclick="closeModal('add-transaction-modal')">&times;</button>
+      </div>
+      <form id="add-transaction-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="txn-date">Transaction Date</label>
+            <input type="date" id="txn-date" required>
+          </div>
+          <div class="form-group">
+            <label for="txn-type">Entry Type</label>
+            <select id="txn-type" required>
+              <option value="Expense">Expense</option>
+              <option value="Income">Income</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="txn-category">Category</label>
+            <select id="txn-category" required>
+              <option value="Trip Revenue">Trip Revenue</option>
+              <option value="Toll Cost">Toll Cost</option>
+              <option value="Fuel">Fuel</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Salary">Salary</option>
+              <option value="Rent">Rent</option>
+              <option value="Insurance">Insurance</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="txn-payment-method">Payment Account / Bank</label>
+            <select id="txn-payment-method" required>
+              <!-- Loaded dynamically from Financial Accounts -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="txn-amount">Amount (₹)</label>
+            <input type="number" id="txn-amount" placeholder="e.g. 12000" required min="1">
+          </div>
+          <div class="form-group">
+            <label for="txn-ref">Reference ID (Optional)</label>
+            <input type="text" id="txn-ref" placeholder="e.g. TRP-001, MNT-002">
+          </div>
+          <div class="form-group full-width">
+            <label for="txn-desc">Description</label>
+            <textarea id="txn-desc" placeholder="Details of transaction..." required rows="2"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('add-transaction-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Log Transaction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 6B. Edit Transaction Modal -->
+  <div id="edit-transaction-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Transaction Entry</h3>
+        <button class="modal-close" onclick="closeModal('edit-transaction-modal')">&times;</button>
+      </div>
+      <form id="edit-transaction-form">
+        <input type="hidden" id="edit-transaction-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="edit-txn-date">Transaction Date</label>
+            <input type="date" id="edit-txn-date" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-txn-type">Entry Type</label>
+            <select id="edit-txn-type" required>
+              <option value="Expense">Expense</option>
+              <option value="Income">Income</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-txn-category">Category</label>
+            <select id="edit-txn-category" required>
+              <option value="Trip Revenue">Trip Revenue</option>
+              <option value="Toll Cost">Toll Cost</option>
+              <option value="Fuel">Fuel</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Salary">Salary</option>
+              <option value="Rent">Rent</option>
+              <option value="Insurance">Insurance</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-txn-payment-method">Payment Account / Bank</label>
+            <select id="edit-txn-payment-method" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-txn-amount">Amount (₹)</label>
+            <input type="number" id="edit-txn-amount" required min="1">
+          </div>
+          <div class="form-group">
+            <label for="edit-txn-ref">Reference ID</label>
+            <input type="text" id="edit-txn-ref">
+          </div>
+          <div class="form-group full-width">
+            <label for="edit-txn-desc">Description</label>
+            <textarea id="edit-txn-desc" required rows="2"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('edit-transaction-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 7. Add User Modal -->
+  <div id="add-user-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Login Account</h3>
+        <button class="modal-close" onclick="closeModal('add-user-modal')">&times;</button>
+      </div>
+      <form id="add-user-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="user-name">Full Name</label>
+            <input type="text" id="user-name" placeholder="e.g. Ramesh Kumar" required>
+          </div>
+          <div class="form-group">
+            <label for="user-role">Role</label>
+            <select id="user-role" required>
+              <option value="Fleet Manager">Fleet Manager</option>
+              <option value="Dispatcher">Dispatcher</option>
+              <option value="Super Admin">Super Admin</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="user-username">Username (Login ID)</label>
+            <input type="text" id="user-username" placeholder="e.g. ramesh_ops" required>
+          </div>
+          <div class="form-group">
+            <label for="user-password">Password</label>
+            <input type="password" id="user-password" placeholder="Create password" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('add-user-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Category Modal -->
+  <div id="add-category-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Custom Category</h3>
+        <button class="modal-close" onclick="closeModal('add-category-modal')">&times;</button>
+      </div>
+      <form id="add-category-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="category-name">Category Name</label>
+            <input type="text" id="category-name" placeholder="e.g. Loading Allowance" required>
+          </div>
+          <div class="form-group">
+            <label for="category-type">Category Type</label>
+            <select id="category-type" required>
+              <option value="Expense">Expense</option>
+              <option value="Income">Income</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('add-category-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Category Modal -->
+  <div id="edit-category-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Custom Category</h3>
+        <button class="modal-close" onclick="closeModal('edit-category-modal')">&times;</button>
+      </div>
+      <form id="edit-category-form">
+        <input type="hidden" id="edit-category-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="edit-category-name">Category Name</label>
+            <input type="text" id="edit-category-name" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-category-type">Category Type</label>
+            <select id="edit-category-type" required>
+              <option value="Expense">Expense</option>
+              <option value="Income">Income</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('edit-category-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 8. Add Financial Account (Bank) Modal -->
+  <div id="add-financial-account-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Register Financial Account</h3>
+        <button class="modal-close" onclick="closeModal('add-financial-account-modal')">&times;</button>
+      </div>
+      <form id="add-financial-account-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="acc-name">Account Label Name</label>
+            <input type="text" id="acc-name" placeholder="e.g. HDFC Salary, Cash Box, UPI Pay" required>
+          </div>
+          <div class="form-group">
+            <label for="acc-type">Account Asset Type</label>
+            <select id="acc-type" required>
+              <option value="Bank">Bank Account (Savings/Current)</option>
+              <option value="Cash">Cash Ledger Wallet</option>
+              <option value="Mobile Wallet">UPI / Digital Wallet</option>
+              <option value="Credit Card">Credit Card Account</option>
+            </select>
+          </div>
+          <!-- Bank Details Section (Toggled dynamically) -->
+          <div class="form-group" id="group-acc-bank-name">
+            <label for="acc-bank-name">Bank Name</label>
+            <input type="text" id="acc-bank-name" placeholder="e.g. State Bank of India">
+          </div>
+          <div class="form-group" id="group-acc-number">
+            <label for="acc-number">Account Number</label>
+            <input type="text" id="acc-number" placeholder="e.g. 501003456789">
+          </div>
+          <div class="form-group" id="group-acc-ifsc">
+            <label for="acc-ifsc">IFSC Code</label>
+            <input type="text" id="acc-ifsc" placeholder="e.g. SBIN0001234">
+          </div>
+          <div class="form-group">
+            <label for="acc-balance">Opening Balance (₹)</label>
+            <input type="number" id="acc-balance" placeholder="e.g. 50000" required min="0">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('add-financial-account-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 9. Add Fuel Log Modal -->
+  <div id="add-fuel-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Record Fuel Refill</h3>
+        <button class="modal-close" onclick="closeModal('add-fuel-modal')">&times;</button>
+      </div>
+      <form id="add-fuel-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="fuel-truck">Select Vehicle</label>
+            <select id="fuel-truck" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="fuel-driver">Select Operator</label>
+            <select id="fuel-driver" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="fuel-date">Refill Date</label>
+            <input type="date" id="fuel-date" required>
+          </div>
+          <div class="form-group">
+            <label for="fuel-qty">Quantity (Liters)</label>
+            <input type="number" id="fuel-qty" placeholder="e.g. 100" required min="1" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="fuel-price">Price per Liter (₹)</label>
+            <input type="number" id="fuel-price" placeholder="e.g. 96.50" required min="1" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="fuel-odometer">Current Odometer Reading (KM)</label>
+            <input type="number" id="fuel-odometer" placeholder="e.g. 125000" required min="0">
+          </div>
+          <div class="form-group">
+            <label for="fuel-payment-method">Payment Account / Bank</label>
+            <select id="fuel-payment-method" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="fuel-trip">Link to Trip (Optional)</label>
+            <select id="fuel-trip">
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('add-fuel-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Fuel Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 9B. Edit Fuel Log Modal -->
+  <div id="edit-fuel-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Fuel Refill Log</h3>
+        <button class="modal-close" onclick="closeModal('edit-fuel-modal')">&times;</button>
+      </div>
+      <form id="edit-fuel-form">
+        <input type="hidden" id="edit-fuel-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="edit-fuel-truck">Vehicle</label>
+            <select id="edit-fuel-truck" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-fuel-driver">Operator</label>
+            <select id="edit-fuel-driver" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-fuel-date">Refill Date</label>
+            <input type="date" id="edit-fuel-date" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-fuel-qty">Quantity (Liters)</label>
+            <input type="number" id="edit-fuel-qty" required min="1" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="edit-fuel-price">Price per Liter (₹)</label>
+            <input type="number" id="edit-fuel-price" required min="1" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="edit-fuel-odometer">Current Odometer Reading (KM)</label>
+            <input type="number" id="edit-fuel-odometer" required min="0">
+          </div>
+          <div class="form-group">
+            <label for="edit-fuel-payment-method">Payment Account / Bank</label>
+            <select id="edit-fuel-payment-method" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-fuel-trip">Link to Trip (Optional)</label>
+            <select id="edit-fuel-trip">
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('edit-fuel-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 10A. Add DEF Log Modal -->
+  <div id="add-def-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Record DEF / AdBlue Refill</h3>
+        <button class="modal-close" onclick="closeModal('add-def-modal')">&times;</button>
+      </div>
+      <form id="add-def-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="def-truck">Select Vehicle</label>
+            <select id="def-truck" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="def-driver">Select Operator</label>
+            <select id="def-driver" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="def-date">Refill Date</label>
+            <input type="date" id="def-date" required>
+          </div>
+          <div class="form-group">
+            <label for="def-qty">Quantity (Liters)</label>
+            <input type="number" id="def-qty" placeholder="e.g. 10" required min="0.1" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="def-price">Price per Liter (₹)</label>
+            <input type="number" id="def-price" placeholder="e.g. 55.00" required min="1" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="def-odometer">Current Odometer Reading (KM)</label>
+            <input type="number" id="def-odometer" placeholder="e.g. 125000" required min="0">
+          </div>
+          <div class="form-group">
+            <label for="def-payment-method">Payment Account / Bank</label>
+            <select id="def-payment-method" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="def-trip">Link to Trip (Optional)</label>
+            <select id="def-trip">
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('add-def-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save DEF Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 10B. Edit DEF Log Modal -->
+  <div id="edit-def-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit DEF / AdBlue Log</h3>
+        <button class="modal-close" onclick="closeModal('edit-def-modal')">&times;</button>
+      </div>
+      <form id="edit-def-form">
+        <input type="hidden" id="edit-def-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="edit-def-truck">Vehicle</label>
+            <select id="edit-def-truck" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-def-driver">Operator</label>
+            <select id="edit-def-driver" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-def-date">Refill Date</label>
+            <input type="date" id="edit-def-date" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-def-qty">Quantity (Liters)</label>
+            <input type="number" id="edit-def-qty" required min="0.1" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="edit-def-price">Price per Liter (₹)</label>
+            <input type="number" id="edit-def-price" required min="1" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="edit-def-odometer">Current Odometer Reading (KM)</label>
+            <input type="number" id="edit-def-odometer" required min="0">
+          </div>
+          <div class="form-group">
+            <label for="edit-def-payment-method">Payment Account / Bank</label>
+            <select id="edit-def-payment-method" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-def-trip">Link to Trip (Optional)</label>
+            <select id="edit-def-trip">
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('edit-def-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Mobile Sidebar Overlay background shadow -->
+
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- App Main Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

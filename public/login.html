@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - TransRoute Control Portal</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Reusing style.css -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      margin: 0;
+      padding: 16px;
+    }
+    
+    .login-container {
+      width: 100%;
+      max-width: 440px;
+      z-index: 10;
+      position: relative;
+    }
+
+    .login-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .login-logo svg {
+      width: 48px;
+      height: 48px;
+      color: var(--color-cyan);
+      filter: drop-shadow(0 2px 8px rgba(37, 99, 235, 0.4));
+    }
+
+    .login-logo-text {
+      font-family: var(--font-header);
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: linear-gradient(135deg, var(--text-main) 30%, var(--color-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .login-logo-subtitle {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .login-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(20px);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid transparent;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), transparent 60%) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .login-title-group {
+      text-align: center;
+    }
+
+    .login-card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .login-card-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .error-alert {
+      display: none;
+      background-color: rgba(220, 38, 38, 0.08);
+      border: 1px solid rgba(220, 38, 38, 0.2);
+      color: var(--color-red);
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      line-height: 1.4;
+      text-align: center;
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper input {
+      padding-right: 44px; /* Space for icon */
+    }
+
+    .toggle-password-btn {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s ease;
+    }
+
+    .toggle-password-btn:hover {
+      color: var(--text-main);
+    }
+
+    .btn-login {
+      width: 100%;
+      justify-content: center;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Ambient High-Tech Glow Blobs -->
+  <div class="glow-blob blob-1"></div>
+  <div class="glow-blob blob-2"></div>
+
+  <div class="login-container">
+    <div class="login-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="3" width="15" height="13"></rect>
+        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+      </svg>
+      <div>
+        <span class="login-logo-text">TransRoute</span>
+        <div class="login-logo-subtitle">Fleet Control Center</div>
+      </div>
+    </div>
+
+    <div class="login-card">
+      <div class="login-title-group">
+        <h2 class="login-card-title">Sign In</h2>
+        <p class="login-card-subtitle">Enter credentials to access transport console.</p>
+      </div>
+
+      <div class="error-alert" id="login-error-box">
+        Incorrect username or password. Please try again.
+      </div>
+
+      <form class="login-form" id="login-form">
+        <div class="form-group">
+          <label for="username">Operator ID / Username</label>
+          <input type="text" id="username" placeholder="e.g. admin" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="toggle-password-btn" id="toggle-password-btn" title="Toggle visibility">
+              <!-- Eye SVG Icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-login">
+          Authenticate Session
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Toggle Password Visibility
+    const passwordInput = document.getElementById("password");
+    const togglePasswordBtn = document.getElementById("toggle-password-btn");
+    
+    togglePasswordBtn.addEventListener("click", () => {
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+      
+      // Update eye icon state
+      if (type === "text") {
+        togglePasswordBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+          </svg>
+        `;
+      } else {
+        togglePasswordBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        `;
+      }
+    });
+
+    // Login Form Submit Handlers
+    const loginForm = document.getElementById("login-form");
+    const errorBox = document.getElementById("login-error-box");
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorBox.style.display = "none";
+
+      const username = document.getElementById("username").value;
+      const password = passwordInput.value;
+
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || "Authentication failed");
+        }
+
+        const data = await res.json();
+        // Redirect to dashboard page
+        window.location.replace("/index.html");
+      } catch (error) {
+        console.error("Login Error:", error);
+        errorBox.innerText = error.message;
+        errorBox.style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>
