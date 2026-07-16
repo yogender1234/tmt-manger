@@ -175,7 +175,8 @@ ON CONFLICT (id) DO NOTHING;
 -- Seed Users
 -- Password is 'admin123' (bcrypt hash)
 INSERT INTO users (username, password, name, role) VALUES
-('admin', '$2a$10$9F00hPq9N8wN0mK.T5D1huxlBqG4.N1x5cZfK5k5bL1U/2x2y2y2y', 'Yogesh Admin', 'Super Admin')
+('admin', '$2a$10$9F00hPq9N8wN0mK.T5D1huxlBqG4.N1x5cZfK5k5bL1U/2x2y2y2y', 'Yogesh Admin', 'Super Admin'),
+('manager', '$2a$10$9F00hPq9N8wN0mK.T5D1huxlBqG4.N1x5cZfK5k5bL1U/2x2y2y2y', 'Fleet Manager', 'Manager')
 ON CONFLICT (username) DO NOTHING;
 
 -- Seed Financial Accounts (with Custom Details)
