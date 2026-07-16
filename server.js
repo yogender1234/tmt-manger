@@ -1139,10 +1139,14 @@ app.delete('/api/def-logs/:id', async (req, res) => {
 // Fallback route
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
-app.listen(PORT, () => {
-  console.log(`===============================================`);
-  console.log(`Truck Management Portal is running on port ${PORT}`);
-  console.log(`Access website at http://localhost:${PORT}`);
-  console.log(`Mode: ${MOCK_MODE ? 'DEMO (In-Memory)' : 'PRODUCTION (Supabase)'}`);
-  console.log(`===============================================`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`===============================================`);
+    console.log(`Truck Management Portal is running on port ${PORT}`);
+    console.log(`Access website at http://localhost:${PORT}`);
+    console.log(`Mode: ${MOCK_MODE ? 'DEMO (In-Memory)' : 'PRODUCTION (Supabase)'}`);
+    console.log(`===============================================`);
+  });
+}
+
+module.exports = app;
